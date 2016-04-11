@@ -1,8 +1,34 @@
+body{
+}
 div {
     border: 1px dotted #000000;
 }
 #side{
     background-color:rgba(255,255,255,.8);
 }
-#map{
+#map{overflow:hidden;}
+
+.tile {
+  position: absolute;
+  width: 256px;
+  height: 256px;
+}
+
+.tile path {
+  fill: none;
+  stroke: #000;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+   stroke-width: .3;
+}
+
+.tile .major_road { stroke-width: .3; }
+.tile .minor_road { stroke-width: .3; }
+.tile .highway {stroke-width: .3; }
+.tile .rail { stroke-width: .1 }
+
+.info {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
 }
