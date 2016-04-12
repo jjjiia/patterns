@@ -1,13 +1,17 @@
 body{
 }
 div {
-    border: 1px dotted #000000;
+}
+.row{
+ border-bottom:1px solid black;   
 }
 #side{
     background-color:rgba(255,255,255,.8);
+    padding:40px;
 }
 #map{overflow:hidden;}
-
+#title{font-family:Baskerville; font-size:36px; position:fixed;top:0px;left:0px;padding:10px;}
+#subtitle{font-family:Baskerville; font-size:16px;position:fixed;top:40px;left:0px; padding:10px;}
 .tile {
   position: absolute;
   width: 256px;
