@@ -23,7 +23,8 @@ $(function() {
 		.defer(d3.json,"data/busStops.json")
 		.defer(d3.json,"data/bikeLanes.json")
 		.defer(d3.json,"data/bikeshare.json")
-		.defer(d3.json,"data/test2.json")
+		.defer(d3.json,"data/businesses.json")
+		.defer(d3.json,"data/trees.json")
         .await(dataLoaded);
 })
 var layersControl = {
@@ -31,7 +32,7 @@ var layersControl = {
     "locations":true,
     "openspace":true
 }
-function dataLoaded(error,streets,locations,openspace,buildings,bus,bikeLanes,bikeShare,businesses){
+function dataLoaded(error,streets,locations,openspace,buildings,bus,bikeLanes,bikeShare,businesses,trees){
     var mapSvg = d3.select("#map").append("svg").attr("width",x).attr("height",y)
     drawStreets(streets,"streets")
     drawopenspace(openspace,"openspace","green")
@@ -41,6 +42,7 @@ function dataLoaded(error,streets,locations,openspace,buildings,bus,bikeLanes,bi
     drawBikeRoutes(bikeShare,"bikeLanes","green")
     showHidLayers("bikeLanes")
     drawBusinesses(businesses,"businesses","red")
+    drawTrees(trees,"trees","green")
     drawLocations(locations,"locations")
     drawLegend()
 }
@@ -133,6 +135,35 @@ function drawLegend(){
             return businessTypeColorsArray[colorIndex]
     })
     .text(function(d){return d[0]})
+}
+function drawTrees(data,layer,color){
+    showHidLayers(layer)
+    var dataArray = jsonToArray(data)
+    var projection = d3.geo.mercator().scale(util.scale).center(util.center).translate(util.translate)    
+    var colorScale = d3.scale.linear().domain([10,100]).range(["#fff",color])
+    var mapSvg = d3.select("#map svg").append("g")
+    mapSvg.selectAll("."+layer)
+          .data(dataArray)
+          .enter()
+          .append("circle")
+          .attr("cx",function(d){
+              console.log(d)
+            return projection([parseFloat(d.data.coordinates[0]),parseFloat(d.data.coordinates[1])])[0]
+          })
+          .attr("cy",function(d){
+            return projection([parseFloat(d.data.coordinates[0]),parseFloat(d.data.coordinates[1])])[1]
+          })
+          .attr("r", Math.random()*3)
+          .style("fill",color)
+          .attr("class",function(d){
+              var classArray = layer+" "
+              for(var id in d.data.ids){
+                  var classId =d.data.ids[id][0]
+                  classArray = classArray+"_"+classId+" "
+              } 
+              return classArray  
+          })
+          .attr("opacity",.3)
 }
 function drawBusinesses(data,layer,color){
     showHidLayers(layer)

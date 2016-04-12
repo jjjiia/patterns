@@ -22,20 +22,61 @@
       <div id = "map" class="col-md-9"></div>
 
       <div id = "side" class="col-md-3">
-          Entities
-        <div id="entities" class = "row">
-        </div>
-        Rankings
-        <div id="rankings" class = "row">
-          
-        </div>
-          Layers
-        <div id = "layers" class = "row">
-        </div>
+        <div id="entitiesShow">Show Entities</div>
+        <div id="entitiesHide">Hide Entities</div>
+        <div id="entities" class = "row"></div>
+
+        <div id="rankingsShow">Show Rankings</div>
+        <div id="rankingsHide">Hide Rankings</div>
+        <div id="rankings" class = "row"></div>
+        
+         <div id = "layersShow"> Show Layers</div>
+         <div id = "layersHide"> Hide Layers</div>
+        <div id = "layers" class = "row"></div>
       </div>
   <div id = "title" >Patterns</div>
   <div id = "subtitle">Mapping the Context of Potential Wildflower Schools in Cambridge</div>
-
+<script>
+  $(document).ready(function(){
+    $("#layersHide").hide()
+    $("#layers").hide()
+    $("#entitiesHide").hide()
+    $("#entities").hide()
+    $("#rankingsHide").hide()
+    $("#rankings").hide()
+    
+    $("#entitiesHide").click(function(){
+      $("#entities").hide();
+      $("#entitiesShow").show();
+      $("#entitiesHide").hide();        
+    });
+    $("#entitiesShow").click(function(){
+        $("#entities").show();
+        $("#entitiesShow").hide();
+        $("#entitiesHide").show();    
+    });
+    $("#rankingsHide").click(function(){
+      $("#rankings").hide();
+      $("#rankingsShow").show();
+      $("#rankingsHide").hide();        
+    });
+    $("#rankingsShow").click(function(){
+        $("#rankings").show();
+        $("#rankingsShow").hide();
+        $("#rankingsHide").show();    
+    });
+    $("#layersHide").click(function(){
+      $("#layers").hide();
+      $("#layersShow").show();
+      $("#layersHide").hide();        
+    });
+    $("#layersShow").click(function(){
+        $("#layers").show();
+        $("#layersShow").hide();
+        $("#layersHide").show();    
+    });
+  });
+</script>
   </body>
     <script src = "businessType_colors.js"></script>
     <script src="patterns.js"></script>
