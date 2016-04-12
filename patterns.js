@@ -32,8 +32,15 @@ var layersControl = {
     "locations":true,
     "openspace":true
 }
+var zoom = d3.behavior.zoom()
+    .translate([0, 0])
+    .scale(1)
+    .scaleExtent([1, 10])
+    .on("zoom", zoomed);
 function dataLoaded(error,streets,locations,openspace,buildings,bus,bikeLanes,bikeShare,businesses,trees){
     var mapSvg = d3.select("#map").append("svg").attr("width",x).attr("height",y)
+    mapSvg.call(zoom);
+    
     drawStreets(streets,"streets")
     drawopenspace(openspace,"openspace","green")
     drawBuildings(buildings,"buildings","black")
@@ -231,7 +238,7 @@ function drawBus(data,layer,color){
           })
           .style("opacity",.7)
 }
-function drawBikeRoutes(data,layer,color){    
+function drawBikeRoutes(data,layer,color){
     var dataArray = jsonToArray(data)
 	var projection = d3.geo.mercator().scale(util.scale).center(util.center).translate(util.translate)
     var colorScale = d3.scale.linear().domain([10,100]).range(["#fff",color])
@@ -376,7 +383,9 @@ function clickLocations(id){
             d3.selectAll(".bus").style("opacity",.1)
             d3.selectAll(".bikeLanes").style("opacity",.1)
             d3.selectAll(".businesses").style("opacity",.1)
+            d3.selectAll(".trees").style("opacity",.1)
             d3.selectAll("._"+id).style("opacity",.7)
+	        d3.selectAll(".trees ._"+id).style("opacity",.4)
 }
 function drawStreets(data,layer){
     showHidLayers(layer)
@@ -394,4 +403,17 @@ function drawStreets(data,layer){
 	    .style("opacity",1)
         .attr("stroke-width",.3)
         //.call(zoom)
+}
+function zoomed() {
+    util.scale = d3.event.scale
+	util.translate = d3.event.translate
+    d3.selectAll("#map").attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+    d3.selectAll("#map .openspace").attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+	d3.selectAll("#map .buildings").attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+	d3.selectAll("#map .bus").attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+	d3.selectAll("#map .bikeLanes").attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+	d3.selectAll("#map .businesses").attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+	d3.selectAll("#map .trees").attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+	d3.selectAll("#map .streets").attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+	d3.selectAll("#map .locations").attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
 }
