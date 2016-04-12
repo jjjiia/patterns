@@ -154,7 +154,6 @@ function drawTrees(data,layer,color){
           .enter()
           .append("circle")
           .attr("cx",function(d){
-              console.log(d)
             return projection([parseFloat(d.data.coordinates[0]),parseFloat(d.data.coordinates[1])])[0]
           })
           .attr("cy",function(d){
@@ -414,6 +413,6 @@ function zoomed() {
 	d3.selectAll("#map .bikeLanes").attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
 	d3.selectAll("#map .businesses").attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
 	d3.selectAll("#map .trees").attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-	d3.selectAll("#map .streets").attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+	d3.selectAll("#map path").attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
 	d3.selectAll("#map .locations").attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
 }
