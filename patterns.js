@@ -93,17 +93,26 @@ function drawLegend(){
         catArray.push([cat,colorsCategories[cat]])
     }
     var grayArray = new Array(12)
+    
     legend.append("text").text("Building Footprints by Height:").attr("x",12).attr("y",240)
-    var grayScale = d3.scale.linear().domain([1,12]).range(["#ddd","#000"])
+
+    var heightScale = d3.scale.linear().domain([1,12]).range(["#fff","#000"])    
     legend.selectAll("rect").data(grayArray).enter()
         .append("rect")
         .attr("x",function(d,i){return i*12+26})
         .attr("y",270)
         .attr("width",10)
         .attr("height",20)
-        .attr("fill",function(d,i){return grayScale(i)})
+        .attr("fill",function(d,i){return heightScale(i)})
+        .on("click",function(d,i){
+            d3.selectAll(".buildings").style("opacity",.1)
+            d3.selectAll(".f"+i).style("opacity",1)
+        })
+        .attr("cursor","pointer")
+        
+    
     legend.append("text").text("<2").attr("x",18).attr("y",262).attr("class","categoryLabel")
-    legend.append("text").text(">18").attr("x",150).attr("y",262).attr("class","categoryLabel")
+    legend.append("text").text(">12").attr("x",150).attr("y",262).attr("class","categoryLabel")
     
     
     legend.append("circle").attr("r",5).attr("cx",20).attr("cy",360).attr("fill","#000")
@@ -287,6 +296,7 @@ function drawBuildings(data,layer,color){
 	var projection = d3.geo.mercator().scale(util.scale).center(util.center).translate(util.translate)    
     var colorScale = d3.scale.linear().domain([10,100]).range(["#fff",color])
     var mapSvg = d3.select("#map svg").append("g")
+    var heightScale = d3.scale.linear().domain([1,12]).range(["#fff","#000"])
     var line = d3.svg.line()
 //          .interpolate("cardinal")
           .x(function(d) {
@@ -302,15 +312,17 @@ function drawBuildings(data,layer,color){
           .append("path")
           .attr("d", function(d){return line(d.data.coordinates)})
           .style("fill", function(d){
-              return colorScale(d.data.properties.TOP_GL)
+              var floors = parseInt(d.data.properties.TOP_GL/8)
+              return heightScale(floors)
           })
           .attr("class",function(d){
               var classArray = layer+" "
+              var floors = parseInt(d.data.properties.TOP_GL/8)
               for(var id in d.data.ids){
                   var classId =d.data.ids[id][0]
                   classArray = classArray+"_"+classId+" "
               } 
-              return classArray  
+              return classArray +"f"+floors
           })
           .style("opacity",.7)
 }
