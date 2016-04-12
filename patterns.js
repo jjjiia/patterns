@@ -159,7 +159,7 @@ function drawTrees(data,layer,color){
           .attr("cy",function(d){
             return projection([parseFloat(d.data.coordinates[0]),parseFloat(d.data.coordinates[1])])[1]
           })
-          .attr("r", Math.random()*3)
+          .attr("r", Math.random()*2)
           .style("fill",color)
           .attr("class",function(d){
               var classArray = layer+" "
@@ -200,7 +200,7 @@ function drawBusinesses(data,layer,color){
               }}
           )
           .attr("class",function(d){
-              var classArray = layer+" "
+              var classArray = layer+" "+d.data.type+" "
               for(var id in d.data.ids){
                   var classId =d.data.ids[id][0]
                   classArray = classArray+"_"+classId+" "
