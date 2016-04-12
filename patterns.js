@@ -81,11 +81,11 @@ function jsonToArray(data){
 }
 function drawLegend(){
     
-    var locationL = d3.select("#entities").append("svg").attr("width",250).attr("height",40)
-    locationL.append("text").text("Potential Locations").attr("x",30).attr("y",30)
-    locationL.append("circle")
-        .attr("r",10).attr("cx",15).attr("cy",23)
-    
+// var locationL = d3.select("#entities").append("svg").attr("width",250).attr("height",40)
+// locationL.append("text").text("Potential Locations").attr("x",30).attr("y",30)
+// locationL.append("circle")
+//     .attr("r",10).attr("cx",15).attr("cy",23)
+// 
     var legend = d3.select("#entities").append("svg").attr("width",250).attr("height",450)
    
     var catArray = []
@@ -130,10 +130,18 @@ function drawLegend(){
     .attr("cx",20)
     .attr("cy",function(d,i){return i*20+20})
     .attr("r",5)
-    
+    .attr("class",function(d){
+        return d[0]
+    })
     .attr("fill",function(d){
         var colorIndex = d[1]; 
         return businessTypeColorsArray[colorIndex]})
+    .on("click",function(d){
+        d3.selectAll(".businesses").style("opacity",.1)
+        d3.selectAll("."+d[0]).style("opacity",1)
+    })
+    .attr("cursor","pointer")
+    
     legend.selectAll(".legend").data(catArray).enter().append("text")
     .attr("x",30)
     .attr("y",function(d,i){return i*20+24})
@@ -142,6 +150,11 @@ function drawLegend(){
             return businessTypeColorsArray[colorIndex]
     })
     .text(function(d){return d[0]})
+    .on("click",function(d){
+        d3.selectAll(".businesses").style("opacity",.1)
+        d3.selectAll("."+d[0]).style("opacity",1)
+    })
+    .attr("cursor","pointer")
 }
 function drawTrees(data,layer,color){
     showHidLayers(layer)
@@ -200,7 +213,7 @@ function drawBusinesses(data,layer,color){
               }}
           )
           .attr("class",function(d){
-              var classArray = layer+" "+d.data.type+" "
+              var classArray = layer+" "+d.data.type+" "+businessTypeColors[d.data.type]+" "
               for(var id in d.data.ids){
                   var classId =d.data.ids[id][0]
                   classArray = classArray+"_"+classId+" "
