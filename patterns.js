@@ -42,11 +42,11 @@ function dataLoaded(error,streets,locations,openspace,buildings,bus,bikeLanes,bi
     mapSvg.call(zoom);
     
     drawStreets(streets,"streets")
-    drawopenspace(openspace,"openspace","green")
+    drawopenspace(openspace,"openspace","#59BA53")
     drawBuildings(buildings,"buildings","black")
     drawBus(bus,"bus","red")
-    drawBikeRoutes(bikeLanes,"bikeLanes","green")
-    drawBikeRoutes(bikeShare,"bikeLanes","green")
+    drawBikeRoutes(bikeLanes,"bikeLanes","black")
+    drawBikeRoutes(bikeShare,"bikeLanes","black")
     showHidLayers("bikeLanes")
     drawBusinesses(businesses,"businesses","red")
     drawTrees(trees,"trees","green")
@@ -146,8 +146,8 @@ function drawLegend(){
         var colorIndex = d[1]; 
         return businessTypeColorsArray[colorIndex]})
     .on("click",function(d){
-        d3.selectAll(".businesses").style("opacity",.1)
-        d3.selectAll("."+d[0]).style("opacity",1)
+        d3.selectAll("circle .businesses").style("opacity",.1)
+        d3.selectAll("circle ."+d[0]).transition().duration(1500).delay(function(i){return i*50}).style("opacity",1).attr("r",150)
     })
     .attr("cursor","pointer")
     
@@ -167,6 +167,19 @@ function drawLegend(){
 }
 function drawTrees(data,layer,color){
     showHidLayers(layer)
+    var treeColors =["#30442D",
+"#88BB3B",
+"#336843",
+"#59BA53",
+"#687B59",
+"#4BBB72",
+"#3C5B20",
+"#A5AE85",
+"#6A9030",
+"#62AF7E",
+"#408341",
+"#90AD63"]
+    
     var dataArray = jsonToArray(data)
     var projection = d3.geo.mercator().scale(util.scale).center(util.center).translate(util.translate)    
     var colorScale = d3.scale.linear().domain([10,100]).range(["#fff",color])
@@ -181,17 +194,24 @@ function drawTrees(data,layer,color){
           .attr("cy",function(d){
             return projection([parseFloat(d.data.coordinates[0]),parseFloat(d.data.coordinates[1])])[1]
           })
-          .attr("r", Math.random()*2)
-          .style("fill",color)
+          .attr("r", function(d){
+              //console.log(d.data.ids[0])
+              //return d.data.ids[0][3]/120
+              return Math.random()*4
+          })
+          .style("fill",function(d){
+              return "green"
+              return treeColors[parseInt(Math.random()*8)]
+          })
           .attr("class",function(d){
               var classArray = layer+" "
               for(var id in d.data.ids){
                   var classId =d.data.ids[id][0]
                   classArray = classArray+"_"+classId+" "
               } 
-              return classArray  
+              return classArray
           })
-          .attr("opacity",.3)
+          .attr("opacity",.5)
 }
 function drawBusinesses(data,layer,color){
     showHidLayers(layer)
@@ -402,13 +422,13 @@ function drawLocations(data,layer){
         .attr("cursor","pointer")
 }
 function clickLocations(id){
-            d3.selectAll(".openspace").style("opacity",.1)
-            d3.selectAll(".buildings").style("opacity",.1)
-            d3.selectAll(".bus").style("opacity",.1)
-            d3.selectAll(".bikeLanes").style("opacity",.1)
-            d3.selectAll(".businesses").style("opacity",.1)
-            d3.selectAll(".trees").style("opacity",.1)
-            d3.selectAll("._"+id).style("opacity",.7)
+            d3.selectAll(".openspace").style("opacity",.05)
+            d3.selectAll(".buildings").style("opacity",.05)
+            d3.selectAll(".bus").style("opacity",.05)
+            d3.selectAll(".bikeLanes").style("opacity",.05)
+            d3.selectAll(".businesses").style("opacity",.05)
+            d3.selectAll(".trees").style("opacity",.05)
+            d3.selectAll("._"+id).style("opacity",.6)
 	        d3.selectAll(".trees ._"+id).style("opacity",.4)
 }
 function drawStreets(data,layer){
