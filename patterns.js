@@ -43,13 +43,13 @@ function dataLoaded(error,streets,locations,openspace,buildings,bus,bikeLanes,bi
     
     drawStreets(streets,"streets")
     drawopenspace(openspace,"openspace","#59BA53")
+    drawTrees(trees,"trees","green")
     drawBuildings(buildings,"buildings","black")
     drawBus(bus,"bus","red")
     drawBikeRoutes(bikeLanes,"bikeLanes","black")
     drawBikeRoutes(bikeShare,"bikeLanes","black")
     showHidLayers("bikeLanes")
     drawBusinesses(businesses,"businesses","red")
-    drawTrees(trees,"trees","green")
     drawLocations(locations,"locations")
     drawLegend()
 }
@@ -211,7 +211,7 @@ function drawTrees(data,layer,color){
               } 
               return classArray
           })
-          .attr("opacity",.5)
+          .attr("opacity",.3)
 }
 function drawBusinesses(data,layer,color){
     showHidLayers(layer)
