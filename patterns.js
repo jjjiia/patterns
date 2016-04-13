@@ -59,11 +59,19 @@ function showHidLayers(layer){
     layers.append("text").text(layer).attr("x",20).attr("y",14)
     .on("click",function(){
         if(layersControl[layer]==false){
-            d3.selectAll("."+layer).transition().duration(1000).delay(function(d,i){return i}).style("opacity",1)
+            if(layer == "trees"){
+                d3.selectAll("."+layer).transition().duration(1000).style("opacity",.7)
+            }else{
+                d3.selectAll("."+layer).transition().duration(1000).delay(function(d,i){return i}).style("opacity",1)
+            }
             layersControl[layer]=true
             d3.select(this).transition().duration(1000).delay(function(d,i){return i}).style("opacity",1)
         }else{
-            d3.selectAll("."+layer).transition().duration(1000).delay(function(d,i){return i}).style("opacity",0)
+            if(layer=="trees"){
+                d3.selectAll("."+layer).transition().duration(1000).style("opacity",0)
+            }else{
+                d3.selectAll("."+layer).transition().duration(1000).delay(function(d,i){return i}).style("opacity",0)
+            }
             layersControl[layer]=false
             d3.select(this).transition().duration(1000).delay(function(d,i){return i}).style("opacity",.5)
         }
