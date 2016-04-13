@@ -43,7 +43,7 @@ function dataLoaded(error,streets,locations,openspace,buildings,bus,bikeLanes,bi
     
     drawStreets(streets,"streets")
     drawopenspace(openspace,"openspace","#59BA53")
-    drawTrees(trees,"trees","green")
+   // drawTrees(trees,"trees","green")
     drawBuildings(buildings,"buildings","black")
     drawBus(bus,"bus","red")
     drawBikeRoutes(bikeLanes,"bikeLanes","black")
