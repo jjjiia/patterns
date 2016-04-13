@@ -6,7 +6,7 @@ var util = {
     width:x,
     height:y,
     center:[-71.116580,42.374059],
-    scale:1200000,
+    scale:900000,
     translate:[x/2,y/2]
 }
 var projection = d3.geo.mercator().scale(util.scale).center(util.center).translate(util.translate)
@@ -59,13 +59,13 @@ function showHidLayers(layer){
     layers.append("text").text(layer).attr("x",20).attr("y",14)
     .on("click",function(){
         if(layersControl[layer]==false){
-            d3.selectAll("."+layer).style("opacity",1)
+            d3.selectAll("."+layer).transition().duration(1000).delay(function(d,i){return i}).style("opacity",1)
             layersControl[layer]=true
-            d3.select(this).style("opacity",1)
+            d3.select(this).transition().duration(1000).delay(function(d,i){return i}).style("opacity",1)
         }else{
-            d3.selectAll("."+layer).style("opacity",0)
+            d3.selectAll("."+layer).transition().duration(1000).delay(function(d,i){return i}).style("opacity",0)
             layersControl[layer]=false
-            d3.select(this).style("opacity",.5)
+            d3.select(this).transition().duration(1000).delay(function(d,i){return i}).style("opacity",.5)
         }
     })
 }
@@ -378,7 +378,7 @@ function drawopenspace(data,layer,color){
           .style("opacity",.7)
 }
 function drawLocations(data,layer){
-//    showHidLayers(layer)  
+    showHidLayers(layer)  
     var mapSvg = d3.select("#map svg").append("g")
     mapSvg.selectAll(".circle")
         .data(data)
@@ -421,14 +421,14 @@ function drawLocations(data,layer){
         })
         .attr("cursor","pointer")
 }
-function clickLocations(id){
+function clickLocations(id){    
             d3.selectAll(".openspace").style("opacity",.05)
             d3.selectAll(".buildings").style("opacity",.05)
             d3.selectAll(".bus").style("opacity",.05)
             d3.selectAll(".bikeLanes").style("opacity",.05)
             d3.selectAll(".businesses").style("opacity",.05)
             d3.selectAll(".trees").style("opacity",.05)
-            d3.selectAll("._"+id).style("opacity",.6)
+            d3.selectAll("._"+id).transition().duration(1000).delay(function(d,i){return i*2}).style("opacity",.6)
 	        d3.selectAll(".trees ._"+id).style("opacity",.4)
 }
 function drawStreets(data,layer){
