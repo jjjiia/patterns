@@ -18,7 +18,7 @@ var colorsCategories = {
     "finance":5,
     "office":6,
     "food":7,
-    "placeOfWorship":8,
+    "placeOfWorship":0,
     "culture":9,
     "other":10
 }

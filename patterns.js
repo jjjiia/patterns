@@ -60,7 +60,7 @@ function showHidLayers(layer){
     .on("click",function(){
         if(layersControl[layer]==false){
             if(layer == "trees"  || layer=="businesses"){
-                d3.selectAll("."+layer).transition().duration(1000).delay(function(d,i){return i/4}).style("opacity",.7)
+                d3.selectAll("."+layer).transition().duration(1000).delay(function(d,i){return i/2}).style("opacity",.7)
             }else{
                 d3.selectAll("."+layer).transition().duration(1000).delay(function(d,i){return i}).style("opacity",1)
             }
@@ -68,7 +68,7 @@ function showHidLayers(layer){
             d3.select(this).transition().duration(1000).delay(function(d,i){return i}).style("opacity",1)
         }else{
             if(layer=="trees" || layer=="businesses"){
-                d3.selectAll("."+layer).transition().duration(1000).delay(function(d,i){return i/4}).style("opacity",0)
+                d3.selectAll("."+layer).transition().duration(1000).delay(function(d,i){return i/2}).style("opacity",0)
             }else{
                 d3.selectAll("."+layer).transition().duration(1000).delay(function(d,i){return i}).style("opacity",0)
             }
